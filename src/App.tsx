@@ -1,17 +1,20 @@
-import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NoPage from "./pages/NoPage";
-import Home from "./pages/Home";
-import Layout from "./pages/Layout";
+import Header from "./components/header";
+import Home from "./pages/Home/Home";
+import Invoices from "./pages/Invoices/Invoices";
+import Rooms from "./pages/Rooms/Rooms";
+import Tenants from "./pages/Tenants/Tenants";
+import './app.sass'
 
 export default function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
-        <Route path="/" element={<Layout />} />
-        <Route path="/tenants" element={<Home />} />
-        <Route path="/rooms" element={<Home />} />
-        <Route path="/invoices" element={<Home />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/tenants" element={<Tenants />} />
+        <Route path="/rooms" element={<Rooms />} />
+        <Route path="/invoices" element={<Invoices />} />
       </Routes>
     </BrowserRouter>
   );

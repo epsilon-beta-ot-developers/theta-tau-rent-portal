@@ -1,7 +1,7 @@
 import React from 'react';
-import './Tenants.scss';
+import './Login.scss';
 
-class Tenants extends React.Component{
+class Login extends React.Component{
     
     constructor(props: any){
         super(props);
@@ -9,9 +9,9 @@ class Tenants extends React.Component{
 
     render() {
         return (
-          <h1>Tenants</h1>
+          <h1>Login</h1>
         );
     }
 }
 
-export default Tenants;
+export default Login;

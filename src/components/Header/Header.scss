@@ -5,12 +5,8 @@
         padding: 0.5rem 0 !important;
         position: relative;
 
-        &:hover {
-            opacity: 1;
-
-            &::before {
-                width: 100%;
-            }
+        &:hover::before {
+            width: 100%;
         }
 
         &::before {

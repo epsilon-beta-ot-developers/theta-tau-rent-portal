@@ -1,0 +1,15 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+  width: 100vw;
+}
+
+.content {
+  flex: 1 1 auto;
+  height: 100%;
+  margin: 10px auto;
+}

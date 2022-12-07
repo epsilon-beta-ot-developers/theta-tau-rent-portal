@@ -1,0 +1,26 @@
+.navbar {
+    .navbar-brand,
+    .nav-link {
+        margin: 0 0.5rem;
+        padding: 0.5rem 0 !important;
+        position: relative;
+
+        &:hover::before {
+            width: 100%;
+        }
+
+        &::before {
+            background-color: #8B0000;
+            bottom: 3px;
+            content: "";
+            height: 5px;
+            position: absolute;
+            transition: 300ms;
+            width: 0%;
+        }
+    }
+
+    .username {
+        color: #8B0000;
+    }
+}

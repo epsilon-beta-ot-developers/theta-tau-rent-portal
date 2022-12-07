@@ -1,9 +1,10 @@
+import Container from 'react-bootstrap/Container';
+import { Link } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Container from 'react-bootstrap/Container';
 import React from 'react';
-import './Header.sass';
+
+import './Header.scss';
 
 class Header extends React.Component{
     
@@ -13,20 +14,22 @@ class Header extends React.Component{
 
     render() {
         return (
-            <Navbar bg="light" expand="lg">
+            <Navbar expand="md">
                 <Container>
-                    <Navbar.Brand href="/">React-Bootstrap</Navbar.Brand>
-                    <Nav className="me-auto">
-                        <Nav.Link href="/tenants">Tenants</Nav.Link>
-                        <Nav.Link href="/rooms">Rooms</Nav.Link>
-                        <Nav.Link href="/invoices">Manage Invoices</Nav.Link>
-                    </Nav>
-                    <Nav>
-                        <Navbar.Text>
-                            Logged in as X.
-                        </Navbar.Text>
-                        <Nav.Link href="/logout">Logout</Nav.Link>
-                    </Nav>
+                    <Link className="navbar-brand" to="/">Home</Link>
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="me-auto">
+                            <Link className="nav-link" to="/tenants">Tenants</Link>
+                            <Link className="nav-link" to="/rooms">Rooms</Link>
+                            <Link className="nav-link" to="/transactions">Transactions</Link>
+                        </Nav>
+                        <Nav>
+                            <Navbar.Text>
+                                Logged in as <span className="username">Admin</span>.
+                            </Navbar.Text>
+                            <Link className="nav-link" to="/account">Logout</Link>
+                        </Nav>
+                    </Navbar.Collapse>
                 </Container>
             </Navbar>
         );

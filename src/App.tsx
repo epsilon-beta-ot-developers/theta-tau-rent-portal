@@ -10,7 +10,7 @@ import Transactions from "./pages/Transactions/Transactions";
 
 import Header from "./components/Header/Header";
 
-import './app.scss'
+import './App.scss'
 
 export default function App() {
   return (

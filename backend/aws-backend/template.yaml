@@ -1,0 +1,118 @@
+Resources:
+  Schedule:
+    Type: AWS::Scheduler::Schedule
+    Properties:
+      ScheduleExpression: cron(0 0 12 1 * ?)
+      FlexibleTimeWindow:
+        Mode: 'OFF'
+      Target:
+        Arn: !GetAtt SendInvoiceLambda.Arn
+        RoleArn: !GetAtt ScheduleToSendInvoiceLambdaRole.Arn
+  SendInvoiceLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: !Sub
+        - Stack ${AWS::StackName} Function ${ResourceName}
+        - ResourceName: SendInvoiceLambda
+      CodeUri: src/SendInvoiceLambda
+      Handler: handler.handler
+      Runtime: python3.9
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      Layers:
+        - !Ref PaypalRestSDK
+  SendInvoiceLambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Retain
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${SendInvoiceLambda}
+  ScheduleToSendInvoiceLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Principal:
+            Service: !Sub scheduler.${AWS::URLSuffix}
+          Action: sts:AssumeRole
+          Condition:
+            ArnLike:
+              aws:SourceArn: !Sub
+                - arn:${AWS::Partition}:scheduler:${AWS::Region}:${AWS::AccountId}:schedule/*/${AWS::StackName}-${ResourceId}-*
+                - ResourceId: Schedule
+      Policies:
+        - PolicyName: StartExecutionPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: lambda:InvokeFunction
+                Resource: !GetAtt SendInvoiceLambda.Arn
+  PaypalRestSDK:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      Description: !Sub
+        - Stack ${AWS::StackName} Layer ${ResourceName}
+        - ResourceName: PaypalRestSDK
+      ContentUri: lambda_layers/PaypalRestSDK
+      RetentionPolicy: Retain
+    Metadata:
+      BuildMethod: python3.8
+  PaypalWebhookLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: !Sub
+        - Stack ${AWS::StackName} Function ${ResourceName}
+        - ResourceName: PaypalWebhookLambda
+      CodeUri: src/PaypalWebhookLambda
+      Handler: index.handler
+      Runtime: python3.9
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      FunctionUrlConfig:
+        AuthType: NONE
+        Cors:
+          AllowMethods:
+            - POST
+      Environment:
+        Variables:
+          QUEUE_NAME: !GetAtt InvoicesQueue.QueueName
+          QUEUE_ARN: !GetAtt InvoicesQueue.Arn
+          QUEUE_URL: !Ref InvoicesQueue
+      Policies:
+        - SQSSendMessagePolicy:
+            QueueName: !GetAtt InvoicesQueue.QueueName
+  PaypalWebhookLambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Retain
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${PaypalWebhookLambda}
+  InvoicesQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      MessageRetentionPeriod: 1209600
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt InvoicesDLQ.Arn
+        maxReceiveCount: 5
+  InvoicesDLQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      MessageRetentionPeriod: 1209600
+Transform: AWS::Serverless-2016-10-31
+Metadata:
+  AWS::Composer::Groups:
+    Group:
+      Label: Receive Invoices
+      Members:
+        - InvoicesDLQ
+        - InvoicesQueue
+        - PaypalWebhookLambda
+    Group2:
+      Label: Send Invoices
+      Members:
+        - Schedule
+        - PaypalRestSDK
+        - SendInvoiceLambda

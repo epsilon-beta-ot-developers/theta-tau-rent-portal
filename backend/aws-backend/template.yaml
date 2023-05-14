@@ -2,7 +2,7 @@ Resources:
   Schedule:
     Type: AWS::Scheduler::Schedule
     Properties:
-      ScheduleExpression: cron(0 0 12 1 * ?)
+      ScheduleExpression: cron(0 12 1 * ? *)
       FlexibleTimeWindow:
         Mode: 'OFF'
       Target:
@@ -77,6 +77,8 @@ Resources:
         Cors:
           AllowMethods:
             - POST
+          AllowOrigins:
+            - '*'
       Environment:
         Variables:
           QUEUE_NAME: !GetAtt InvoicesQueue.QueueName

@@ -1,17 +1,12 @@
 import React from 'react';
+
 import './ForgotPassword.scss';
 
-class ForgotPassword extends React.Component{
+const ForgotPassword: React.FC = () => {
     
-    constructor(props: any){
-        super(props);
-    }
-
-    render() {
-        return (
-          <h1>ForgotPassword</h1>
-        );
-    }
+  return (
+    <h1>ForgotPassword</h1>
+  );
 }
 
 export default ForgotPassword;

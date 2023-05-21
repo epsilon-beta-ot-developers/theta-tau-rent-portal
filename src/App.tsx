@@ -1,18 +1,16 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
+import './App.scss'
 import Account from "./pages/Account/Account";
+import Header from "./components/Header/Header";
 import Home from "./pages/Home/Home";
 import Rooms from "./pages/Rooms/Rooms";
 import Tenant from "./pages/Tenant/Tenant";
 import Tenants from "./pages/Tenants/Tenants";
 import Transactions from "./pages/Transactions/Transactions";
 
-import Header from "./components/Header/Header";
-
-import './App.scss'
-
-export default function App() {
+const App: React.FC = () => {
   return (
     <BrowserRouter>
       <div className="app">
@@ -33,3 +31,5 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
+export default App;

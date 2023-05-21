@@ -1,17 +1,12 @@
 import React from 'react';
+
 import './NewAccount.scss';
 
-class NewAccount extends React.Component{
+const NewAccount: React.FC = () => {
     
-    constructor(props: any){
-        super(props);
-    }
-
-    render() {
-        return (
-          <h1>NewAccount</h1>
-        );
-    }
+  return (
+    <h1>NewAccount</h1>
+  );
 }
 
 export default NewAccount;

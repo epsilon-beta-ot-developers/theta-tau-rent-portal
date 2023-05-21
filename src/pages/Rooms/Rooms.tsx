@@ -1,17 +1,12 @@
 import React from 'react';
+
 import './Rooms.scss';
 
-class Rooms extends React.Component{
+const Rooms: React.FC = () => {
     
-    constructor(props: any){
-        super(props);
-    }
-
-    render() {
-        return (
-          <h1>Rooms</h1>
-        );
-    }
+  return (
+    <h1>Rooms</h1>
+  );
 }
 
 export default Rooms;

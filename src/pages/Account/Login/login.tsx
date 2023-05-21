@@ -1,17 +1,12 @@
 import React from 'react';
+
 import './Login.scss';
 
-class Login extends React.Component{
-    
-    constructor(props: any){
-        super(props);
-    }
+const Login: React.FC = () => {
 
-    render() {
-        return (
-          <h1>Login</h1>
-        );
-    }
+  return (
+    <h1>Login</h1>
+  );
 }
 
 export default Login;

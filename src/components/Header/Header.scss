@@ -1,3 +1,5 @@
+@import '@/scss/custom.scss';
+
 .navbar {
     .navbar-brand,
     .nav-link {
@@ -10,10 +12,10 @@
         }
 
         &::before {
-            background-color: #8B0000;
-            bottom: 3px;
+            background-color: $primary;
+            bottom: rfs-value(3px);
             content: "";
-            height: 5px;
+            height: rfs-value(5px);
             position: absolute;
             transition: 300ms;
             width: 0%;
@@ -21,6 +23,6 @@
     }
 
     .username {
-        color: #8B0000;
+        color: $primary;
     }
 }

@@ -2,11 +2,15 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"log"
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/sqs"
 
 	"encoding/base64"
 	"encoding/json"
@@ -111,10 +115,38 @@ func VerifyWebhookSignature(request *events.LambdaFunctionURLRequest, webhook_id
 	return verifyResponse, nil
 }
 
+func GetSQSClient() (*sqs.Client, error) {
+	cfg, err := config.LoadDefaultConfig(context.TODO())
+	if err != nil {
+		// panic("configuration error, " + err.Error())
+		return nil, err
+	}
+
+	sqsclient := sqs.NewFromConfig(cfg)
+
+	return sqsclient, nil
+}
+
+func SendMessage(sqsClient *sqs.Client, message *string, queueUrl *string) (*sqs.SendMessageOutput, error) {
+	msgResult, err := sqsClient.SendMessage(context.TODO(), &sqs.SendMessageInput{
+		QueueUrl:     queueUrl,
+		MessageBody:  message,
+		DelaySeconds: 0,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return msgResult, nil
+}
+
 func handler(request events.LambdaFunctionURLRequest) (events.LambdaFunctionURLResponse, error) {
 	client_id := "PAYPAL CLIENT ID HERE"
 	client_secret := "PAYPAL CLIENT SECRET HERE"
 	webhook_id := "PAYPAL WEBHOOK ID HERE"
+
+	response2 := events.LambdaFunctionURLResponse{
+		StatusCode: 200,
+	}
 
 	// we need to get data to verify the paypal invoice
 	// https://developer.paypal.com/api/rest/webhooks/
@@ -122,7 +154,7 @@ func handler(request events.LambdaFunctionURLRequest) (events.LambdaFunctionURLR
 	// need to verify that the message:
 	// - came from paypal
 	// - was not altered or corrupted during transmission
-	// - was inteded for you
+	// - was intended for you
 	// - contains a valid signature
 
 	newBearer, err := GetPaypalBearerToken(client_id, client_secret)
@@ -137,8 +169,23 @@ func handler(request events.LambdaFunctionURLRequest) (events.LambdaFunctionURLR
 	}
 	log.Println("Verification Response: " + verifyResponse.VerificationStatus)
 
-	response2 := events.LambdaFunctionURLResponse{
-		StatusCode: 200,
+	sqsClient, err := GetSQSClient()
+	if err != nil {
+		return response2, err
+	}
+
+	queueURL := "https://sqs.us-east-1.amazonaws.com/894977212568/PaypalInvoiceSQS"
+
+	mymessage := "This is a test 3"
+	_, err = SendMessage(sqsClient, &mymessage, &queueURL)
+	if err != nil {
+		return response2, err
+	}
+
+	print(queueURL)
+
+	if err != nil {
+		return response2, err
 	}
 
 	return response2, nil

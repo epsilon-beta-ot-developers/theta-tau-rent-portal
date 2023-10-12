@@ -10,7 +10,8 @@ import Tenant from "./pages/Tenant/Tenant";
 import Tenants from "./pages/Tenants/Tenants";
 import Transactions from "./pages/Transactions/Transactions";
 
-const App: React.FC = () => {
+const App = () => {
+
   return (
     <BrowserRouter>
       <div className="app">

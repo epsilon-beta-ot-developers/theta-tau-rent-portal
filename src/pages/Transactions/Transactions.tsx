@@ -1,12 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import './Transactions.scss';
+import "./Transactions.scss";
 
 const Transactions: React.FC = () => {
-
-  return (
-    <h1>Transactions</h1>
-  );
-}
+  return <h1>Transactions</h1>;
+};
 
 export default Transactions;

@@ -1,11 +1,19 @@
-@import '@/scss/custom.scss';
+@import "@/scss/custom.scss";
+
+.rooms-page {
+  display: flex;
+  flex-direction: column;
+  .section:not(:first-child) {
+    margin-top: 20px;
+  }
+}
 
 h1 {
   font-size: 1.25rem;
   font-weight: bold;
 }
 
-.rooms-section {
+.section {
   background-color: $white;
   border-radius: 10px;
   padding: 25px;
@@ -15,14 +23,15 @@ h1 {
   height: 40px;
 }
 
-.rooms-heading {
+.section-heading {
   align-items: center;
   display: flex;
   justify-content: space-between;
   margin-bottom: 35px;
 }
 
-.rooms-table {
+.section-table {
+
   .action-buttons {
     white-space: nowrap;
   }
@@ -48,8 +57,12 @@ h1 {
     }
   }
 
+  th, td {
+    background-color: inherit;
+  }
+
   tbody {
-    tr:not(:last-child) {
+    tr {
       border-bottom: 2px solid rgba(0, 0, 0, 0.1);
     }
 

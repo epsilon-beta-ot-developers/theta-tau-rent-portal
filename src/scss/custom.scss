@@ -31,11 +31,11 @@ $font-family-base: Verdana, Geneva, Tahoma, sans-serif;
   }
 }
 
-.btn-secondary{
+.btn-secondary {
   border: 2px solid $secondary;
   color: $white;
   font-weight: bold;
-  
+
   &:hover {
     background-color: transparent;
     color: $secondary;
@@ -46,7 +46,7 @@ $font-family-base: Verdana, Geneva, Tahoma, sans-serif;
   border: 2px solid $danger;
   color: $white;
   font-weight: bold;
-  
+
   &:hover {
     background-color: transparent;
     color: $danger;

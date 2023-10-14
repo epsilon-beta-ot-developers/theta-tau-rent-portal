@@ -1,12 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import './Account.scss';
+import "./Account.scss";
 
 const Account: React.FC = () => {
-    
-  return (
-    <h1>Account</h1>
-  );
-}
+  return <h1>Account</h1>;
+};
 
 export default Account;

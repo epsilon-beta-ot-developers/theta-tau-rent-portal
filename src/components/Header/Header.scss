@@ -1,28 +1,28 @@
-@import '@/scss/custom.scss';
+@import "@/scss/custom.scss";
 
 .navbar {
-    .navbar-brand,
-    .nav-link {
-        margin: 0 0.5rem;
-        padding: 0.5rem 0 !important;
-        position: relative;
+  .navbar-brand,
+  .nav-link {
+    margin: 0 0.5rem;
+    padding: 0.5rem 0 !important;
+    position: relative;
 
-        &:hover::before {
-            width: 100%;
-        }
-
-        &::before {
-            background-color: $primary;
-            bottom: rfs-value(3px);
-            content: "";
-            height: rfs-value(5px);
-            position: absolute;
-            transition: 300ms;
-            width: 0%;
-        }
+    &:hover::before {
+      width: 100%;
     }
 
-    .username {
-        color: $primary;
+    &::before {
+      background-color: $primary;
+      bottom: rfs-value(3px);
+      content: "";
+      height: rfs-value(5px);
+      position: absolute;
+      transition: 300ms;
+      width: 0%;
     }
+  }
+
+  .username {
+    color: $primary;
+  }
 }

@@ -1,16 +1,17 @@
 import Button from "react-bootstrap/Button";
-import React from "react";
+import React, { ReactElement } from "react";
 import Table from "react-bootstrap/Table";
 
 import "./Rooms.scss";
 import { AMENITIES_TABLE_HEADERS, ROOMS_TABLE_HEADERS } from "./constants";
+import AddEditRoomForm from "./components/AddEditRoomForm/AddEditRoomForm";
 import getAmenitiesData from "./constants/amenitiesData";
 import getRoomsData from "./constants/roomsData";
 import { useModal } from "@/providers/ModalProvider/ModalProvider";
 import type IAmenity from "@/interfaces/amenity";
 import type IRoom from "@/interfaces/room";
 
-const Rooms: React.FC = () => {
+const Rooms: React.FC = (): ReactElement => {
   const modal = useModal();
   const [amenities, setAmenities] = React.useState<IAmenity[]>([]);
   const [rooms, setRooms] = React.useState<IRoom[]>([]);
@@ -95,7 +96,7 @@ const Rooms: React.FC = () => {
     modal.create({
       title: `${room ? "Edit" : "Add"} Room`,
       backdrop: "static",
-      content: `${room ? "Edit" : "Add"} Room Form`,
+      content: <AddEditRoomForm room={room} />,
       actionButtons: [
         {
           text: "Cancel",

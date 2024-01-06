@@ -18,3 +18,37 @@ $body-color: $dark;
 $font-family-base: Verdana, Geneva, Tahoma, sans-serif;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
+
+// DEFAULTS
+.btn-primary {
+  border: 2px solid $primary;
+  color: $white;
+  font-weight: bold;
+
+  &:hover {
+    background-color: transparent;
+    color: $primary;
+  }
+}
+
+.btn-secondary {
+  border: 2px solid $secondary;
+  color: $white;
+  font-weight: bold;
+
+  &:hover {
+    background-color: transparent;
+    color: $secondary;
+  }
+}
+
+.btn-danger {
+  border: 2px solid $danger;
+  color: $white;
+  font-weight: bold;
+
+  &:hover {
+    background-color: transparent;
+    color: $danger;
+  }
+}

@@ -1,12 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import './Tenant.scss';
+import "./Tenant.scss";
 
 const Tenant: React.FC = () => {
-    
-  return (
-    <h1>Tenant</h1>
-  );
-}
+  return <h1>Tenant</h1>;
+};
 
 export default Tenant;

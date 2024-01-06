@@ -1,12 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import './Home.scss';
+import "./Home.scss";
 
 const Home: React.FC = () => {
-    
-  return (
-    <h1>Home</h1>
-  );
-}
+  return <h1>Home</h1>;
+};
 
 export default Home;

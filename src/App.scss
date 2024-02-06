@@ -1,19 +1,9 @@
-@import "@/scss/custom.scss";
-
 .app {
   display: flex;
   flex-direction: column;
   height: 100vh;
   margin: 0;
   width: 100vw;
-
-  p {
-    background-color: blue;
-  }
-}
-
-p {
-  background-color: red;
 }
 
 .content {

@@ -1,4 +1,4 @@
-@import "@/scss/custom.scss";
+@use "/src/sass/variables" as *;
 
 .rooms-page {
   display: flex;
@@ -31,7 +31,6 @@ h1 {
 }
 
 .section-table {
-
   .action-buttons {
     white-space: nowrap;
   }
@@ -57,7 +56,8 @@ h1 {
     }
   }
 
-  th, td {
+  th,
+  td {
     background-color: inherit;
   }
 

@@ -1,12 +1,23 @@
 import Container from "react-bootstrap/Container";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./Header.scss";
+import { logout, type AuthUser, type RootState } from "@/store";
 
-const Header: React.FC = () => {
+const Header: FC = () => {
+  const user: AuthUser | undefined = useSelector(
+    (state: RootState) => state.auth.user
+  );
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <Navbar expand="md">
       <Container>
@@ -26,12 +37,20 @@ const Header: React.FC = () => {
             </Link>
           </Nav>
           <Nav>
-            <Navbar.Text>
-              Logged in as <span className="username">Admin</span>.
-            </Navbar.Text>
-            <Link className="nav-link" to="/account">
-              Logout
-            </Link>
+            {user ? (
+              <>
+                <Navbar.Text>
+                  Logged in as <span className="username">{user.name}</span>
+                </Navbar.Text>
+                <Link className="nav-link" to="/account" onClick={handleLogout}>
+                  Sign Out
+                </Link>
+              </>
+            ) : (
+              <Link className="nav-link" to="/account">
+                Sign In
+              </Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

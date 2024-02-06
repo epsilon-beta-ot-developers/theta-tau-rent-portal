@@ -3,7 +3,7 @@
 .rooms-page {
   display: flex;
   flex-direction: column;
-  .section:not(:first-child) {
+  .panel:not(:first-child) {
     margin-top: 20px;
   }
 }
@@ -13,24 +13,18 @@ h1 {
   font-weight: bold;
 }
 
-.section {
-  background-color: $white;
-  border-radius: 10px;
-  padding: 25px;
-}
-
 .btn-primary {
   height: 40px;
 }
 
-.section-heading {
+.panel-heading {
   align-items: center;
   display: flex;
   justify-content: space-between;
   margin-bottom: 35px;
 }
 
-.section-table {
+.table {
   .action-buttons {
     white-space: nowrap;
   }

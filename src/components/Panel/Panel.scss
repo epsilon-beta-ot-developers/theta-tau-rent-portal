@@ -1,0 +1,7 @@
+@use "/src/sass/variables" as *;
+
+.panel {
+  background-color: $white;
+  border-radius: 10px;
+  padding: 25px;
+}

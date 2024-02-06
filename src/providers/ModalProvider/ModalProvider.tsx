@@ -1,25 +1,29 @@
+import {
+  FC,
+  PropsWithChildren,
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
+
 import Modal from "@/components/Modal/Modal";
-import React, { PropsWithChildren, createContext } from "react";
 
 import type IModalProps from "@/components/Modal/Modal.interface";
 import type IModalContext from "./ModalProvider.interface";
 
 export const ModalContext = createContext<IModalContext | undefined>(undefined);
 
-export const ModalProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [modalProps, setModalProps] = React.useState<IModalProps>(
-    {} as IModalProps,
-  );
-  const [showModal, setShowModal] = React.useState<boolean>(false);
-  console.log("ModalProvider");
+export const ModalProvider: FC<PropsWithChildren> = ({ children }) => {
+  const [modalProps, setModalProps] = useState<IModalProps>({} as IModalProps);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
-  const create = React.useCallback((modalProps: IModalProps) => {
-    console.log("ModalProvider.create");
+  const create = useCallback((modalProps: IModalProps) => {
     setModalProps(modalProps);
     setShowModal(true);
   }, []);
 
-  const hide = React.useCallback(() => {
+  const hide = useCallback(() => {
     setShowModal(false);
   }, []);
 
@@ -38,7 +42,7 @@ export const ModalProvider: React.FC<PropsWithChildren> = ({ children }) => {
 };
 
 export const useModal = () => {
-  const context = React.useContext(ModalContext);
+  const context = useContext(ModalContext);
   if (context === undefined || context === null) {
     throw new Error("useModal must be used within a ModalProvider");
   }

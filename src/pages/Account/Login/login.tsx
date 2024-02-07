@@ -4,7 +4,6 @@ import { Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 import "./Login.scss";
-import Panel from "@/components/Panel/Panel";
 import { login } from "@/store";
 
 const Login: FC = () => {

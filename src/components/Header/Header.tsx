@@ -18,40 +18,42 @@ const Header: FC = () => {
     dispatch(logout());
   };
 
+  const renderAdminNavLinks = () =>
+    user?.role === "admin" ? (
+      <>
+        <Link className="nav-link" to="/tenants">
+          Tenants
+        </Link>
+        <Link className="nav-link" to="/rooms">
+          Rooms
+        </Link>
+        <Link className="nav-link" to="/transactions">
+          Transactions
+        </Link>
+      </>
+    ) : null;
+
+  const renderLogoutNav = () =>
+    user && (
+      <>
+        <Navbar.Text>
+          Logged in as <span className="username">{user.name}</span>
+        </Navbar.Text>
+        <Link className="nav-link" to="/account" onClick={handleLogout}>
+          Sign Out
+        </Link>
+      </>
+    );
+
   return (
     <Navbar expand="md">
       <Container>
         <Link className="navbar-brand" to="/">
-          Home
+          Rent Portal
         </Link>
+        {renderAdminNavLinks()}
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Link className="nav-link" to="/tenants">
-              Tenants
-            </Link>
-            <Link className="nav-link" to="/rooms">
-              Rooms
-            </Link>
-            <Link className="nav-link" to="/transactions">
-              Transactions
-            </Link>
-          </Nav>
-          <Nav>
-            {user ? (
-              <>
-                <Navbar.Text>
-                  Logged in as <span className="username">{user.name}</span>
-                </Navbar.Text>
-                <Link className="nav-link" to="/account" onClick={handleLogout}>
-                  Sign Out
-                </Link>
-              </>
-            ) : (
-              <Link className="nav-link" to="/account">
-                Sign In
-              </Link>
-            )}
-          </Nav>
+          <Nav>{renderLogoutNav()}</Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

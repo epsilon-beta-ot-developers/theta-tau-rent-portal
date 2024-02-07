@@ -22,7 +22,12 @@
     }
   }
 
+  .navbar-collapse {
+    justify-content: flex-end;
+  }
+
   .username {
     color: $primary;
+    margin-right: 0.5rem;
   }
 }

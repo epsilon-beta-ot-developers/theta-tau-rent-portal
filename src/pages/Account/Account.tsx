@@ -1,9 +1,14 @@
-import React from "react";
+import { FC } from "react";
 
 import "./Account.scss";
+import Login from "./Login/login";
 
-const Account: React.FC = () => {
-  return <h1>Account</h1>;
+const Account: FC = () => {
+  return (
+    <div className="account-page">
+      <Login />
+    </div>
+  );
 };
 
 export default Account;

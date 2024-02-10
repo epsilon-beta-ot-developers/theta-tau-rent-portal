@@ -1,10 +1,10 @@
-import React, { PropsWithChildren, createContext } from "react";
+import { FC, PropsWithChildren, createContext, useContext } from "react";
 
 import { ModalProvider } from "./ModalProvider/ModalProvider";
 
 export const GlobalContext = createContext<undefined>(undefined);
 
-export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
+export const GlobalProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <GlobalContext.Provider value={undefined}>
       <ModalProvider>{children}</ModalProvider>
@@ -12,4 +12,4 @@ export const GlobalProvider: React.FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export const useGlobalContext = () => React.useContext(GlobalContext);
+export const useGlobalContext = () => useContext(GlobalContext);

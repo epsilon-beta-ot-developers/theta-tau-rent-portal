@@ -10,6 +10,7 @@ import getRoomsData from "./constants/roomsData";
 import { useModal } from "@/providers/ModalProvider/ModalProvider";
 import type IAmenity from "@/interfaces/amenity";
 import type IRoom from "@/interfaces/room";
+import Panel from "@/components/Panel/Panel";
 
 const Rooms: React.FC = (): ReactElement => {
   const modal = useModal();
@@ -36,51 +37,61 @@ const Rooms: React.FC = (): ReactElement => {
     modal.hide();
   }, []);
 
-  const handleAddEditAmenity = React.useCallback((amenity?: IAmenity) => {
-    modal.create({
-      title: `${amenity ? "Edit" : "Add"} Amenity`,
-      backdrop: "static",
-      content: `${amenity ? "Edit" : "Add"} Amenity Form`,
-      actionButtons: [
-        {
-          text: "Cancel",
-          variant: "secondary",
-          cb: modal.hide,
-        },
-        {
-          text: amenity ? "Save" : "Add Amenity",
-          variant: "primary",
-          cb: () => amenity
-            ? handleConfirmEditAmenity(amenity)
-            : handleConfirmAddAmenity(),
-        },
-      ],
-    });
-  }, [handleConfirmEditAmenity, modal.create, modal.hide]);
+  const handleAddEditAmenity = React.useCallback(
+    (amenity?: IAmenity) => {
+      modal.create({
+        title: `${amenity ? "Edit" : "Add"} Amenity`,
+        backdrop: "static",
+        content: `${amenity ? "Edit" : "Add"} Amenity Form`,
+        actionButtons: [
+          {
+            text: "Cancel",
+            variant: "secondary",
+            cb: modal.hide,
+          },
+          {
+            text: amenity ? "Save" : "Add Amenity",
+            variant: "primary",
+            cb: () =>
+              amenity
+                ? handleConfirmEditAmenity(amenity)
+                : handleConfirmAddAmenity(),
+          },
+        ],
+      });
+    },
+    [handleConfirmEditAmenity, modal.create, modal.hide]
+  );
 
-  const handleConfirmDeleteAmenity = React.useCallback((amenityId: string) => {
-    console.log("API Call: Delete Amenity with ID: ", amenityId);
-    modal.hide();
-  }, [modal.hide]);
+  const handleConfirmDeleteAmenity = React.useCallback(
+    (amenityId: string) => {
+      console.log("API Call: Delete Amenity with ID: ", amenityId);
+      modal.hide();
+    },
+    [modal.hide]
+  );
 
-  const handleDeleteAmenity = React.useCallback((amenityId: string) => {
-    modal.create({
-      title: "Delete Amenity",
-      content: "Are you sure you want to delete this amenity?",
-      actionButtons: [
-        {
-          text: "Cancel",
-          variant: "secondary",
-          cb: modal.hide,
-        },
-        {
-          text: "Delete",
-          variant: "danger",
-          cb: () => handleConfirmDeleteAmenity(amenityId),
-        },
-      ],
-    });
-  }, [handleConfirmDeleteAmenity, modal.create, modal.hide]);
+  const handleDeleteAmenity = React.useCallback(
+    (amenityId: string) => {
+      modal.create({
+        title: "Delete Amenity",
+        content: "Are you sure you want to delete this amenity?",
+        actionButtons: [
+          {
+            text: "Cancel",
+            variant: "secondary",
+            cb: modal.hide,
+          },
+          {
+            text: "Delete",
+            variant: "danger",
+            cb: () => handleConfirmDeleteAmenity(amenityId),
+          },
+        ],
+      });
+    },
+    [handleConfirmDeleteAmenity, modal.create, modal.hide]
+  );
 
   const handleConfirmAddRoom = React.useCallback(() => {
     console.log("API Call: Add Room");
@@ -92,51 +103,59 @@ const Rooms: React.FC = (): ReactElement => {
     modal.hide();
   }, []);
 
-  const handleAddEditRoom = React.useCallback((room?: IRoom) => {
-    modal.create({
-      title: `${room ? "Edit" : "Add"} Room`,
-      backdrop: "static",
-      content: <AddEditRoomForm room={room} />,
-      actionButtons: [
-        {
-          text: "Cancel",
-          variant: "secondary",
-          cb: modal.hide,
-        },
-        {
-          text: room ? "Save" : "Add Room",
-          variant: "primary",
-          cb: () => room
-            ? handleConfirmEditRoom(room)
-            : handleConfirmAddRoom(),
-        },
-      ],
-    });
-  }, [handleConfirmEditRoom, modal.create, modal.hide]);
+  const handleAddEditRoom = React.useCallback(
+    (room?: IRoom) => {
+      modal.create({
+        title: `${room ? "Edit" : "Add"} Room`,
+        backdrop: "static",
+        content: <AddEditRoomForm room={room} />,
+        actionButtons: [
+          {
+            text: "Cancel",
+            variant: "secondary",
+            cb: modal.hide,
+          },
+          {
+            text: room ? "Save" : "Add Room",
+            variant: "primary",
+            cb: () =>
+              room ? handleConfirmEditRoom(room) : handleConfirmAddRoom(),
+          },
+        ],
+      });
+    },
+    [handleConfirmEditRoom, modal.create, modal.hide]
+  );
 
-  const handleConfirmDeleteRoom = React.useCallback((roomId: string) => {
-    console.log("API Call: Delete Room with ID: ", roomId);
-    modal.hide();
-  }, [modal.hide]);
+  const handleConfirmDeleteRoom = React.useCallback(
+    (roomId: string) => {
+      console.log("API Call: Delete Room with ID: ", roomId);
+      modal.hide();
+    },
+    [modal.hide]
+  );
 
-  const handleDeleteRoom = React.useCallback((roomId: string) => {
-    modal.create({
-      title: "Delete Room",
-      content: "Are you sure you want to delete this room?",
-      actionButtons: [
-        {
-          text: "Cancel",
-          variant: "secondary",
-          cb: modal.hide,
-        },
-        {
-          text: "Delete",
-          variant: "danger",
-          cb: () => handleConfirmDeleteRoom(roomId),
-        },
-      ],
-    });
-  }, [handleConfirmDeleteRoom, modal.create, modal.hide]);
+  const handleDeleteRoom = React.useCallback(
+    (roomId: string) => {
+      modal.create({
+        title: "Delete Room",
+        content: "Are you sure you want to delete this room?",
+        actionButtons: [
+          {
+            text: "Cancel",
+            variant: "secondary",
+            cb: modal.hide,
+          },
+          {
+            text: "Delete",
+            variant: "danger",
+            cb: () => handleConfirmDeleteRoom(roomId),
+          },
+        ],
+      });
+    },
+    [handleConfirmDeleteRoom, modal.create, modal.hide]
+  );
 
   React.useEffect(() => {
     fetchAmenities();
@@ -145,12 +164,14 @@ const Rooms: React.FC = (): ReactElement => {
 
   return (
     <div className="rooms-page">
-      <div className="section">
-        <div className="section-heading">
+      <Panel>
+        <div className="panel-heading">
           <h1>478 W. Alexandrine - Rooms</h1>
-          <Button onClick={() => handleAddEditRoom()} variant="primary">Add Room</Button>
+          <Button onClick={() => handleAddEditRoom()} variant="primary">
+            Add Room
+          </Button>
         </div>
-        <Table responsive hover className="section-table">
+        <Table responsive hover className="panel-table">
           <thead>
             <tr>
               {ROOMS_TABLE_HEADERS.map((header: string) => (
@@ -165,8 +186,16 @@ const Rooms: React.FC = (): ReactElement => {
                 <td>{room.tenants.map((tenant) => tenant.name).join("\n")}</td>
                 <td>${room.rent.slice(0, room.tenants.length).join("\n$")}</td>
                 <td className="action-buttons">
-                  <Button onClick={() => handleAddEditRoom(room)} variant="secondary">Edit</Button>
-                  <Button onClick={() => handleDeleteRoom(room.id)} variant="danger">
+                  <Button
+                    onClick={() => handleAddEditRoom(room)}
+                    variant="secondary"
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    onClick={() => handleDeleteRoom(room.id)}
+                    variant="danger"
+                  >
                     Delete
                   </Button>
                 </td>
@@ -174,13 +203,15 @@ const Rooms: React.FC = (): ReactElement => {
             ))}
           </tbody>
         </Table>
-      </div>
-      <div className="section">
-        <div className="section-heading">
+      </Panel>
+      <Panel>
+        <div className="panel-heading">
           <h1>Amenities</h1>
-          <Button onClick={() => handleAddEditAmenity()} variant="primary">Add Amenity</Button>
+          <Button onClick={() => handleAddEditAmenity()} variant="primary">
+            Add Amenity
+          </Button>
         </div>
-        <Table responsive hover className="section-table">
+        <Table responsive hover className="panel-table">
           <thead>
             <tr>
               {AMENITIES_TABLE_HEADERS.map((header: string) => (
@@ -195,14 +226,24 @@ const Rooms: React.FC = (): ReactElement => {
                 <td>{amenity.maxPerRoom}</td>
                 <td>${amenity.cost}</td>
                 <td className="action-buttons">
-                  <Button onClick={() => handleAddEditAmenity(amenity)} variant="secondary">Edit</Button>
-                  <Button onClick={() => handleDeleteAmenity(amenity.id)} variant="danger">Delete</Button>
+                  <Button
+                    onClick={() => handleAddEditAmenity(amenity)}
+                    variant="secondary"
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    onClick={() => handleDeleteAmenity(amenity.id)}
+                    variant="danger"
+                  >
+                    Delete
+                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
         </Table>
-      </div>
+      </Panel>
     </div>
   );
 };

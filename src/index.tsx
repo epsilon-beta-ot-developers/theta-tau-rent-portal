@@ -1,12 +1,16 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 
 import "./sass/custom.scss";
 import "./index.scss";
 import App from "./App";
+import store from "./store";
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+createRoot(document.getElementById("root") as HTMLElement).render(
+  <StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </StrictMode>
 );

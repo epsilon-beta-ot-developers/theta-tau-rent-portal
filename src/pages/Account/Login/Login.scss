@@ -1,0 +1,17 @@
+.login-panel {
+  margin-bottom: 100px;
+  max-height: 400px;
+  width: 400px;
+
+  .login-form {
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .login-button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+    }
+  }
+}

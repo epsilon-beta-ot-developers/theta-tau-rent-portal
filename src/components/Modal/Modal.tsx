@@ -1,10 +1,10 @@
 import Button from "react-bootstrap/Button";
 import BootstrapModal from "react-bootstrap/Modal";
-import React, { ReactElement } from "react";
+import { FC, ReactElement } from "react";
 
 import type IModalProps from "./Modal.interface";
 
-const Modal: React.FC<IModalProps> = (props: IModalProps): ReactElement => {
+const Modal: FC<IModalProps> = (props: IModalProps): ReactElement => {
   const {
     actionButtons,
     children,

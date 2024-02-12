@@ -8,25 +8,25 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 import { ModalProvider } from "./ModalProvider/ModalProvider";
-import { RootState, loadUser, logout } from "@/store";
+import { initialize, logout, type RootState } from "@/store";
 
 export const GlobalContext = createContext<undefined>(undefined);
 
 export const GlobalProvider: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useDispatch();
-  const { loadUserAttempted, user } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const { isInitialized, user } = useSelector((state: RootState) => state.auth);
 
+  // Initialize auth state on app load
   useEffect(() => {
-    dispatch(loadUser());
+    dispatch(initialize());
   }, [dispatch]);
 
+  // If user is not set during auth initialization, log out
   useEffect(() => {
-    if (loadUserAttempted && !user) {
+    if (isInitialized && !user) {
       dispatch(logout());
     }
-  }, [dispatch, loadUserAttempted, user]);
+  }, [dispatch, isInitialized, user]);
 
   return (
     <GlobalContext.Provider value={undefined}>

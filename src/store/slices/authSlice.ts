@@ -10,8 +10,8 @@ export type AuthUser = {
 };
 
 type AuthSliceState = {
-  clientId: string;
-  loadUserAttempted: boolean;
+  isInitialized: boolean;
+  logoutUri?: string;
   user?: AuthUser;
 };
 
@@ -36,13 +36,13 @@ type CognitoUserPayload = {
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    loadUserAttempted: false,
+    isInitialized: false,
   } as AuthSliceState,
   reducers: {
-    loadUser(state) {
+    initialize(state) {
       const userIdToken = Cookies.get("id_token");
-      const clientId = Cookies.get("client_id");
-      state.loadUserAttempted = true;
+      state.logoutUri = Cookies.get("logout_uri");
+      state.isInitialized = true;
 
       if (userIdToken) {
         const decodedUserId: CognitoUserPayload =
@@ -55,17 +55,14 @@ const authSlice = createSlice({
           username: decodedUserId["cognito:username"],
         };
       }
-      if (clientId) {
-        state.clientId = clientId;
-      }
     },
     logout(state) {
-      window.location.replace(
-        `https://rent-portal-login.auth.us-east-1.amazoncognito.com/logout?response_type=code&client_id=${state.clientId}&redirect_uri=https%3A%2F%2Fportal.ebthetatauhousing.org%2Fparse-auth`
-      );
+      if (state.logoutUri) {
+        window.location.replace(state.logoutUri);
+      }
     },
   },
 });
 
 export const authReducer = authSlice.reducer;
-export const { loadUser, logout } = authSlice.actions;
+export const { initialize, logout } = authSlice.actions;

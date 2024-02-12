@@ -1,19 +1,22 @@
 import { FC } from "react";
 import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Forbidden from "@/pages/ErrorPages/Forbidden";
-import type { RootState } from "@/store";
+import { logout, type RootState } from "@/store";
 
 export interface PrivateRoutesProps {
   roles?: string[];
 }
 
 const PrivateRoute: FC<PrivateRoutesProps> = ({ roles }) => {
-  const user = useSelector((state: RootState) => state.auth.user);
+  const dispatch = useDispatch();
+  const { logoutUri, user } = useSelector((state: RootState) => state.auth);
 
   if (!user) {
-    // navigate to cognito logout link
+    if (logoutUri) {
+      dispatch(logout());
+    }
     return <Forbidden />;
   } else if (roles && !roles.includes(user.role)) {
     return <Forbidden />;

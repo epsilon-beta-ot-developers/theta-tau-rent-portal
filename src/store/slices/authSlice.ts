@@ -10,7 +10,6 @@ export type AuthUser = {
 };
 
 type AuthSliceState = {
-  isInitialized: boolean;
   logoutUri?: string;
   user?: AuthUser;
 };
@@ -42,7 +41,6 @@ const authSlice = createSlice({
     initialize(state) {
       const userIdToken = Cookies.get("id_token");
       state.logoutUri = Cookies.get("logout_uri");
-      state.isInitialized = true;
 
       if (userIdToken) {
         const decodedUserId: CognitoUserPayload =

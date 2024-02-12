@@ -1,53 +1,71 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+import { createSlice } from "@reduxjs/toolkit";
 
 export type AuthUser = {
   email: string;
-  id: number;
-  name: string;
+  phoneNumber: string;
   role: "user" | "admin";
+  username: string;
 };
 
 type AuthSliceState = {
+  clientId: string;
+  loadUserAttempted: boolean;
   user?: AuthUser;
 };
 
-export type AuthLoginPayload = {
+type CognitoUserPayload = {
+  at_hash: string;
+  aud: string;
+  auth_time: number;
+  "cognito:username": string;
   email: string;
-  password: string;
+  email_verified: boolean;
+  event_id: string;
+  exp: number;
+  iat: number;
+  iss: string;
+  jti: string;
+  origin_jti: string;
+  phone_number: string;
+  sub: string;
+  token_use: string;
 };
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: {} as AuthSliceState,
+  initialState: {
+    loadUserAttempted: false,
+  } as AuthSliceState,
   reducers: {
-    login(state, action: PayloadAction<AuthLoginPayload>) {
-      if (
-        action.payload.email == "user@ebthetatauhousing.org" &&
-        action.payload.password === "user"
-      ) {
+    loadUser(state) {
+      const userIdToken = Cookies.get("id_token");
+      const clientId = Cookies.get("client_id");
+      state.loadUserAttempted = true;
+
+      if (userIdToken) {
+        const decodedUserId: CognitoUserPayload =
+          jwtDecode<CognitoUserPayload>(userIdToken);
+
         state.user = {
-          email: action.payload.email,
-          id: 1,
-          name: "User",
-          role: "user",
-        };
-      } else if (
-        action.payload.email === "admin@ebthetatauhousing.org" &&
-        action.payload.password === "admin"
-      ) {
-        state.user = {
-          email: action.payload.email,
-          id: 2,
-          name: "Admin",
+          email: decodedUserId.email,
+          phoneNumber: decodedUserId.phone_number,
           role: "admin",
+          username: decodedUserId["cognito:username"],
         };
+      }
+      if (clientId) {
+        state.clientId = clientId;
       }
     },
     logout(state) {
-      state.user = undefined;
+      window.location.replace(
+        `https://rent-portal-login.auth.us-east-1.amazoncognito.com/logout?response_type=code&client_id=${state.clientId}&redirect_uri=https%3A%2F%2Fportal.ebthetatauhousing.org%2Fparse-auth`
+      );
     },
   },
 });
 
 export const authReducer = authSlice.reducer;
-export const { login, logout } = authSlice.actions;
+export const { loadUser, logout } = authSlice.actions;

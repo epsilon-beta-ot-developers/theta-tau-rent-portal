@@ -4,8 +4,8 @@ import { Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 import "./Login.scss";
-import { login } from "@/store";
 
+// Future: Remove if we want to just use Cognito login page
 const Login: FC = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState<string>("");
@@ -22,7 +22,7 @@ const Login: FC = () => {
   const handleLogin = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      dispatch(login({ email, password }));
+      // dispatch(login({ email, password }));
     },
     [dispatch, email, password]
   );

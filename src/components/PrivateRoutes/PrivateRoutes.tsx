@@ -1,19 +1,19 @@
 import { FC } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import Forbidden from "@/pages/ErrorPages/Forbidden";
-import type { RootState } from "@/store";
+import { type RootState } from "@/store";
 
 export interface PrivateRoutesProps {
   roles?: string[];
 }
 
 const PrivateRoute: FC<PrivateRoutesProps> = ({ roles }) => {
-  const user = useSelector((state: RootState) => state.auth.user);
+  const { user } = useSelector((state: RootState) => state.auth);
 
   if (!user) {
-    return <Navigate to="/account" />;
+    return <Forbidden />;
   } else if (roles && !roles.includes(user.role)) {
     return <Forbidden />;
   } else {

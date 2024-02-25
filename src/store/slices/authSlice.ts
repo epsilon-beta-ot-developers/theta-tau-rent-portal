@@ -1,53 +1,60 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+import { createSlice } from "@reduxjs/toolkit";
 
 export type AuthUser = {
   email: string;
-  id: number;
-  name: string;
+  phoneNumber: string;
   role: "user" | "admin";
+  username: string;
 };
 
 type AuthSliceState = {
   user?: AuthUser;
 };
 
-export type AuthLoginPayload = {
+type CognitoUserPayload = {
+  at_hash: string;
+  aud: string;
+  auth_time: number;
+  "cognito:username": string;
   email: string;
-  password: string;
+  email_verified: boolean;
+  event_id: string;
+  exp: number;
+  iat: number;
+  iss: string;
+  jti: string;
+  origin_jti: string;
+  phone_number: string;
+  sub: string;
+  token_use: string;
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {} as AuthSliceState,
   reducers: {
-    login(state, action: PayloadAction<AuthLoginPayload>) {
-      if (
-        action.payload.email == "user@ebthetatauhousing.org" &&
-        action.payload.password === "user"
-      ) {
+    initialize(state) {
+      const userIdToken = Cookies.get("user_id_token");
+
+      if (userIdToken) {
+        const decodedUserId: CognitoUserPayload =
+          jwtDecode<CognitoUserPayload>(userIdToken);
+
         state.user = {
-          email: action.payload.email,
-          id: 1,
-          name: "User",
-          role: "user",
-        };
-      } else if (
-        action.payload.email === "admin@ebthetatauhousing.org" &&
-        action.payload.password === "admin"
-      ) {
-        state.user = {
-          email: action.payload.email,
-          id: 2,
-          name: "Admin",
+          email: decodedUserId.email,
+          phoneNumber: decodedUserId.phone_number,
           role: "admin",
+          username: decodedUserId["cognito:username"],
         };
       }
     },
-    logout(state) {
-      state.user = undefined;
+    logout() {
+      window.location.replace("https://portal.ebthetatauhousing.org/logout");
     },
   },
 });
 
 export const authReducer = authSlice.reducer;
-export const { login, logout } = authSlice.actions;
+export const { initialize, logout } = authSlice.actions;

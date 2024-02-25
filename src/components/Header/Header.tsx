@@ -1,5 +1,5 @@
 import Container from "react-bootstrap/Container";
-import { FC } from "react";
+import { FC, MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -14,7 +14,8 @@ const Header: FC = () => {
   );
   const dispatch = useDispatch();
 
-  const handleLogout = () => {
+  const handleLogout = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
     dispatch(logout());
   };
 
@@ -37,11 +38,11 @@ const Header: FC = () => {
     user && (
       <>
         <Navbar.Text>
-          Logged in as <span className="username">{user.name}</span>
+          Logged in as <span className="username">{user.email}</span>
         </Navbar.Text>
-        <Link className="nav-link" to="/account" onClick={handleLogout}>
+        <a className="nav-link" onClick={handleLogout}>
           Sign Out
-        </Link>
+        </a>
       </>
     );
 

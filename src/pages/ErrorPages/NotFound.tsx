@@ -5,7 +5,8 @@ import "./ErrorPages.scss";
 const NotFound: React.FC = () => {
   return (
     <div className="error-page">
-      <h1>404: Page Not Found</h1>;
+      <h1>Uh-oh! We hit a snag...</h1>
+      <p>The attempted resource could not be found.</p>
     </div>
   );
 };

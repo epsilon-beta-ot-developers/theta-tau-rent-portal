@@ -10,7 +10,6 @@ export type AuthUser = {
 };
 
 type AuthSliceState = {
-  logoutUri?: string;
   user?: AuthUser;
 };
 
@@ -34,13 +33,10 @@ type CognitoUserPayload = {
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    isInitialized: false,
-  } as AuthSliceState,
+  initialState: {} as AuthSliceState,
   reducers: {
     initialize(state) {
-      const userIdToken = Cookies.get("id_token");
-      state.logoutUri = Cookies.get("logout_uri");
+      const userIdToken = Cookies.get("user_id_token");
 
       if (userIdToken) {
         const decodedUserId: CognitoUserPayload =
@@ -54,10 +50,8 @@ const authSlice = createSlice({
         };
       }
     },
-    logout(state) {
-      if (state.logoutUri) {
-        window.location.replace(state.logoutUri);
-      }
+    logout() {
+      window.location.replace("https://portal.ebthetatauhousing.org/logout");
     },
   },
 });

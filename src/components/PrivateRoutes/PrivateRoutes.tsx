@@ -11,13 +11,10 @@ export interface PrivateRoutesProps {
 
 const PrivateRoute: FC<PrivateRoutesProps> = ({ roles }) => {
   const dispatch = useDispatch();
-  const { logoutUri, user } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
 
   if (!user) {
-    if (logoutUri) {
-      dispatch(logout());
-    }
-    return <Forbidden />;
+    dispatch(logout());
   } else if (roles && !roles.includes(user.role)) {
     return <Forbidden />;
   } else {
